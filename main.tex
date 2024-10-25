@@ -1,0 +1,47 @@
+\documentclass[14pt]{extbook} %8pt, 9pt, 10pt, 11pt, 12pt, 14pt, 17pt and 20pt. 
+
+\input{structure/information-book} %% Global variables with book information
+\input{structure/head-packages} %% external packages used in the book 
+\input{structure/head-macros} %% Macros created to this book 
+\input{structure/color-scheme/color-falacia} %% colors should be after head macros
+
+% packages *.sty in the directory "packages"
+\usepackage{separator-rule}     %% Downloaded macro: Many rules
+\usepackage{background-images}  %% Downloaded macro: Put images
+\usepackage{catalographic-card} %% Downloaded macro: Make catalographic card
+
+
+%% Enviroments created to this book
+\input{structure/enviroment/book-box/style1}
+\input{structure/enviroment/slide-frame}
+\input{structure/enviroment/slide-frame-center}
+
+%% Change font
+%\renewcommand{\normalsize}{\fontsize{28pt}{34pt}\selectfont}
+
+%% Set de default color of all pages
+\pagecolor{white}
+
+%% Set de default color of all text
+\color{colorDefault}
+
+\begin{document}
+\pagestyle{empty}
+
+%%%%%%%%%%%
+\frontmatter
+\input{front-matter/titlepage/model1}
+\input{front-matter/copyright}
+\input{front-matter/titlepage/free}
+
+%%%%%%%%%%%
+\mainmatter
+
+\input{main-matter/chapter-1}
+
+%%%%%%%%%%%
+\backmatter
+
+\input{back-matter/colofao}
+
+\end{document}

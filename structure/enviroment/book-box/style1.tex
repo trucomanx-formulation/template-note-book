@@ -1,0 +1,35 @@
+\usepackage{packages/env-highlight-brokenpage}
+%\usepackage{tikz} % Pacote para gráficos vetoriais
+\NewEnvBoxBrokenPageGlobal[
+    BackColor=green!10,
+    FrameColor=green!50!black,
+    TextColor=blue!50!black,
+    ThicknessLength=3pt,
+    AmplitudeLength=6pt,
+    SegmentLength=20pt,
+    GradeLength=10mm,
+    GradeColor=gray!20,
+    LeftSkipLength=0cm,
+    RightSkipLength=0cm,
+    BeforeSpaceLength=4pt,
+    AfterSpaceLength=4pt,
+    QedSymbol={},%{\hfill{QED}},
+    ShadowColor=white,
+    LeftPaddingLength=2ex,
+    RightPaddingLength=2ex,
+    TopPaddingLength=2ex,
+    BottomPaddingLength=2ex,
+    Breakable=false
+]{book-box}
+
+
+\begin{comment}
+\newcommand{\BookBoxTop}[1]{
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.north),anchor=north,inner sep=2cm] {
+            \begin{book-box}#1 \end{book-box}
+        };
+    \end{tikzpicture}
+}
+\end{comment}
+

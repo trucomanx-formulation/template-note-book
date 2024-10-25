@@ -1,0 +1,23 @@
+\makeatletter
+\newcommand{\FprShowFont}{codifica\c{c}\~ao: \f@encoding{},
+  familia: \f@family{},
+  serie: \f@series{},
+  %shape: \f@shape{},
+  e tamanho: \f@size{} pt}
+\makeatother
+
+
+%-------------------------------------------------------------------------------
+% Esquema de colores
+%-------------------------------------------------------------------------------
+
+\makeatletter
+\newcommand{\DefineBookColorScheme}[6]{
+\expandafter\def\csname BookColorScheme@1\endcsname{#1}
+\expandafter\def\csname BookColorScheme@2\endcsname{#2}
+\expandafter\def\csname BookColorScheme@3\endcsname{#3}
+\expandafter\def\csname BookColorScheme@4\endcsname{#4}
+\expandafter\def\csname BookColorScheme@5\endcsname{#5}
+\expandafter\def\csname BookColorScheme@6\endcsname{#6}
+}
+\makeatother

@@ -1,0 +1,338 @@
+%% source:
+%% https://sourceforge.net/p/latex-macros-packages/background-images
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{background-images}[2022/05/21 Package with background images]
+
+\RequirePackage{tikz}
+\usetikzlibrary{backgrounds} 
+\RequirePackage{xkeyval} % Para opções nomeadas
+\RequirePackage{graphicx} % Para incluir gráficos
+\usepackage{pgffor}
+\usepackage{xstring}
+
+
+% Options
+%\DeclareOption{red}{\renewcommand{\wordcolour}{sharelatexcolour}}
+\DeclareOption*{\PackageWarning{background-images}{The option ‘\CurrentOption’ is current unknown}}
+\ProcessOptions\relax
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Macros 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPagePatternAutoImage[width=0.1\textwidth,height=0.1\textwidth,opacity=1.0, start=south west]{logos/musica2.png}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+% Definir opções com xkeyval
+\define@key{PutPagePatternAutoImage}{width}{\def\PutPagePatternAutoImageWidth{#1}} % Largura do padrão
+\define@key{PutPagePatternAutoImage}{height}{\def\PutPagePatternAutoImageHeight{#1}} % Altura do padrão
+\define@key{PutPagePatternAutoImage}{sep}{\def\PutPagePatternAutoImageSep{#1}} % Altura do padrão
+\define@key{PutPagePatternAutoImage}{opacity}{\def\PutPagePatternAutoImageOpacity{#1}} % Opacidade
+\define@key{PutPagePatternAutoImage}{start}{\def\PutPagePatternAutoImageStart{#1}} % Ponto inicial
+\setkeys{PutPagePatternAutoImage}{width=0.1\textwidth, height=0.1\textwidth, opacity=1.0, start=south west,sep=0pt}
+
+\newcommand{\PutPagePatternAutoImage}[2][]{%
+    \setkeys{PutPagePatternAutoImage}{#1}%
+    
+    \begin{tikzpicture}[remember picture,overlay]
+        % Definir o ponto de início e direção de crescimento
+        \IfStrEq{\PutPagePatternAutoImageStart}{south west}{%
+            \coordinate (startCoord) at (current page.south west);
+            \def\stepX{1} % Crescer para a direita
+            \def\stepY{1} % Crescer para cima
+        }{}
+        \IfStrEq{\PutPagePatternAutoImageStart}{north west}{%
+            \coordinate (startCoord) at ($(current page.north west)+(0,-\PutPagePatternAutoImageHeight)$);
+            \def\stepX{1} % Crescer para a direita
+            \def\stepY{-1} % Crescer para baixo
+        }{}
+        \IfStrEq{\PutPagePatternAutoImageStart}{north east}{%
+            \coordinate (startCoord) at ($(current page.north east)+(-\PutPagePatternAutoImageWidth,-\PutPagePatternAutoImageHeight)$);
+            \def\stepX{-1} % Crescer para a esquerda
+            \def\stepY{-1} % Crescer para baixo
+        }{}
+        \IfStrEq{\PutPagePatternAutoImageStart}{south east}{%
+            \coordinate (startCoord) at ($(current page.south east)+(-\PutPagePatternAutoImageWidth,0)$);
+            \def\stepX{-1} % Crescer para a esquerda
+            \def\stepY{1} % Crescer para cima
+        }{}
+
+        \newlength{\PutPagePatternAutoImageWidthS}
+        \newlength{\PutPagePatternAutoImageHeightS}
+        \setlength{\PutPagePatternAutoImageWidthS}{\PutPagePatternAutoImageWidth+\PutPagePatternAutoImageSep}
+        \setlength{\PutPagePatternAutoImageHeightS}{\PutPagePatternAutoImageHeight+\PutPagePatternAutoImageSep}
+
+        % Calcular o número de repetições necessárias para cobrir a página
+        \pgfmathsetmacro{\numRepetitionsX}{ceil(\paperwidth / \PutPagePatternAutoImageWidthS)}
+        \pgfmathsetmacro{\numRepetitionsY}{ceil(\paperheight / \PutPagePatternAutoImageHeightS)}
+        
+        % Loop para preencher a página com o padrão, aplicando as direções de crescimento
+        \foreach \x in {0,...,\numRepetitionsX} % Repetição horizontal
+            \foreach \y in {0,...,\numRepetitionsY} { % Repetição vertical
+                \node[anchor=south west, inner sep=0, outer sep=0, opacity=\PutPagePatternAutoImageOpacity] 
+                    at ($(startCoord) + (\x * \stepX * \PutPagePatternAutoImageWidthS, \y * \stepY * \PutPagePatternAutoImageHeightS)$) {
+                        \includegraphics[width=\PutPagePatternAutoImageWidth, height=\PutPagePatternAutoImageHeight]{#2}
+                    };
+            }
+    \end{tikzpicture}
+}
+\makeatother
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPagePatternImage[width=0.1\textwidth,height=0.1\textwidth,opacity=1.0]{logos/musica2.png}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+% Definir opções com xkeyval
+\define@key{PutPagePatternImage}{width}{\def\PutPagePatternImageWidth{#1}} % Opção para largura
+\define@key{PutPagePatternImage}{height}{\def\PutPagePatternImageHeight{#1}} % Opção para altura
+\define@key{PutPagePatternImage}{repsX}{\def\PutPagePatternImageRepsX{#1}} % Repetições horizontais
+\define@key{PutPagePatternImage}{repsY}{\def\PutPagePatternImageRepsY{#1}} % Repetições verticais
+\define@key{PutPagePatternImage}{sep}{\def\PutPagePatternImageSep{#1}} % Opção para separação
+\define@key{PutPagePatternImage}{opacity}{\def\PutPagePatternImageOpacity{#1}} % Opção para opacidade
+\setkeys{PutPagePatternImage}{width=0.1\textwidth,height=0.1\textwidth,sep=0pt,opacity=1.0,repsX=3,repsY=3}
+
+\newcommand{\PutPagePatternImage}[2][]{%
+    \setkeys{PutPagePatternImage}{#1}%
+    
+    % Converter repsX e repsY para inteiros
+    \pgfmathsetmacro{\PutPagePatternImageRepsXm}{\PutPagePatternImageRepsX-1}
+    \pgfmathsetmacro{\PutPagePatternImageRepsYm}{\PutPagePatternImageRepsY-1}
+    
+    \newlength{\PutPagePatternImageWidthS}
+    \newlength{\PutPagePatternImageHeightS}
+    \setlength{\PutPagePatternImageWidthS}{\PutPagePatternImageWidth + \PutPagePatternImageSep}
+    \setlength{\PutPagePatternImageHeightS}{\PutPagePatternImageHeight + \PutPagePatternImageSep}
+    
+    % Calcular a largura e altura totais
+    \newlength{\OffsetWidth}
+    \newlength{\OffsetHeight}
+    \setlength{\OffsetWidth}{(\paperwidth-\PutPagePatternImageWidthS * \PutPagePatternImageRepsX)/2}
+    \setlength{\OffsetHeight}{(\paperheight-\PutPagePatternImageHeightS * \PutPagePatternImageRepsY)/2}
+    
+    \begin{tikzpicture}[remember picture,overlay]
+        % Ajustar a posição inicial para centralizar
+        \node[anchor=south west] at ($ (current page.south west) + ( \OffsetWidth, \OffsetHeight) $) {
+            \begin{tikzpicture}[remember picture,overlay]
+            % Loop para preencher a página com o padrão
+            \foreach \x in {0,...,\PutPagePatternImageRepsXm} { % Controle horizontal
+                \foreach \y in {0,...,\PutPagePatternImageRepsYm} { % Controle vertical
+                    \node[anchor=south west, inner sep=0, outer sep=0, opacity=\PutPagePatternImageOpacity] 
+                        at ($ (\x*\PutPagePatternImageWidthS, \y*\PutPagePatternImageHeightS) $) {
+                            \includegraphics[width=\PutPagePatternImageWidth, height=\PutPagePatternImageHeight]{#2}
+                        };
+                }
+            }
+            \end{tikzpicture}
+        };
+    \end{tikzpicture}
+}
+\makeatother
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPageBackgroundImage{/path/to/your/image.eps}
+%% \PutPageBackgroundImage[factor=0.8]{/path/to/your/image.eps}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Comando para definir a imagem de fundo
+
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{PutPageBackgroundImage}{factor}{\def\PutPageBackgroundImageFactor{#1}} % factor
+\setkeys{PutPageBackgroundImage}{factor=1.0}
+\newcommand{\PutPageBackgroundImage}[2][]{%
+    \setkeys{PutPageBackgroundImage}{#1}%
+    \begin{figure}[t]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.center),anchor=center,inner sep=0pt] {
+            \includegraphics[width=\PutPageBackgroundImageFactor\paperwidth,height=\PutPageBackgroundImageFactor\paperheight,keepaspectratio]{#2}
+        };
+    \end{tikzpicture}
+    \end{figure}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPageBackgroundHeightImage{/path/to/your/image.eps}
+%% \PutPageBackgroundHeightImage[factor=0.8]{/path/to/your/image.eps}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Comando para definir a imagem de fundo
+
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{PutPageBackgroundHeightImage}{factor}{\def\PutPageBackgroundHeightImageFactor{#1}} % factor
+\setkeys{PutPageBackgroundHeightImage}{factor=1.0}
+\newcommand{\PutPageBackgroundHeightImage}[2][]{%
+    \setkeys{PutPageBackgroundHeightImage}{#1}%
+    \begin{figure}[t]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.center),anchor=center,inner sep=0pt] {
+            \includegraphics[height=\PutPageBackgroundHeightImageFactor\paperheight,keepaspectratio]{#2}
+        };
+    \end{tikzpicture}
+    \end{figure}
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPageSouthImage[width=0.1\textwidth,sep=0pt]{/path/to/your/image.eps}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{PutPageSouthImage}{width}{\def\PutPageSouthImageWidth{#1}} % Opção para largura
+\define@key{PutPageSouthImage}{sep}{\def\PutPageSouthImageSep{#1}} % Opção para separação
+\define@key{PutPageSouthImage}{opacity}{\def\PutPageSouthImageOpacity{#1}} % opacity
+\setkeys{PutPageSouthImage}{width=0.1\textwidth,sep=0pt,opacity=1.0}
+\newcommand{\PutPageSouthImage}[2][]{%
+    \setkeys{PutPageSouthImage}{#1}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.south),anchor=south,inner sep=\PutPageSouthImageSep,opacity=\PutPageSouthImageOpacity] {
+            \includegraphics[width=\PutPageSouthImageWidth,keepaspectratio]{#2}
+        };
+    \end{tikzpicture}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPageNorthImage[width=0.1\textwidth,sep=0pt]{/path/to/your/image.eps}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{PutPageNorthImage}{width}{\def\PutPageNorthImageWidth{#1}} % Opção para largura
+\define@key{PutPageNorthImage}{sep}{\def\PutPageNorthImageSep{#1}} % Opção para separação
+\define@key{PutPageNorthImage}{opacity}{\def\PutPageNorthImageOpacity{#1}} % Opção para opacity
+\setkeys{PutPageNorthImage}{width=0.1\textwidth,sep=0pt,opacity=1.0}
+\newcommand{\PutPageNorthImage}[2][]{%
+    \setkeys{PutPageNorthImage}{#1}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.north),anchor=north,inner sep=\PutPageNorthImageSep,opacity=\PutPageNorthImageOpacity] {
+            \includegraphics[width=\PutPageNorthImageWidth,keepaspectratio]{#2}
+        };
+    \end{tikzpicture}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPageSouthWestImage[width=0.1\textwidth,sep=0pt]{/path/to/your/image.eps}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{PutPageSouthWestImage}{width}{\def\PutPageSouthWestImageWidth{#1}} % Opção para largura
+\define@key{PutPageSouthWestImage}{sep}{\def\PutPageSouthWestImageSep{#1}} % Opção para separação
+\define@key{PutPageSouthWestImage}{opacity}{\def\PutPageSouthWestImageOpacity{#1}} % opacity
+\setkeys{PutPageSouthWestImage}{width=0.1\textwidth,sep=0pt,opacity=1.0}
+\newcommand{\PutPageSouthWestImage}[2][]{%
+    \setkeys{PutPageSouthWestImage}{#1}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.south west),anchor=south west,inner sep=\PutPageSouthWestImageSep,opacity=\PutPageSouthWestImageOpacity] {
+            \includegraphics[width=\PutPageSouthWestImageWidth,keepaspectratio]{#2}
+        };
+    \end{tikzpicture}
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPageSouthEastImage[width=0.1\textwidth,sep=0pt]{/path/to/your/image.eps}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{PutPageSouthEastImage}{width}{\def\PutPageSouthEastImageWidth{#1}} % Opção para largura
+\define@key{PutPageSouthEastImage}{sep}{\def\PutPageSouthEastImageSep{#1}} % Opção para separação
+\define@key{PutPageSouthEastImage}{opacity}{\def\PutPageSouthEastImageOpacity{#1}} % opacity
+\setkeys{PutPageSouthEastImage}{width=0.1\textwidth,sep=0pt,opacity=1.0}
+\newcommand{\PutPageSouthEastImage}[2][]{%
+    \setkeys{PutPageSouthEastImage}{#1}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.south east),anchor=south east,inner sep=\PutPageSouthEastImageSep,opacity=\PutPageSouthEastImageOpacity] {
+            \includegraphics[width=\PutPageSouthEastImageWidth,keepaspectratio]{#2}
+        };
+    \end{tikzpicture}
+}
+\makeatother
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPageNorthWestImage[width=0.1\textwidth,sep=0pt]{/path/to/your/image.eps}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{PutPageNorthWestImage}{width}{\def\PutPageNorthWestImageWidth{#1}} % Opção para largura
+\define@key{PutPageNorthWestImage}{sep}{\def\PutPageNorthWestImageSep{#1}} % Opção para separação
+\define@key{PutPageNorthWestImage}{opacity}{\def\PutPageNorthWestImageOpacity{#1}} % opacity
+\setkeys{PutPageNorthWestImage}{width=0.1\textwidth,sep=0pt,opacity=1.0}
+\newcommand{\PutPageNorthWestImage}[2][]{%
+    \setkeys{PutPageNorthWestImage}{#1}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.north west),anchor=north west,inner sep=\PutPageNorthWestImageSep,opacity=\PutPageNorthWestImageOpacity] {
+            \includegraphics[width=\PutPageNorthWestImageWidth,keepaspectratio]{#2}
+        };
+    \end{tikzpicture}
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% \PutPageNorthEastImage[width=0.1\textwidth,sep=0pt]{/path/to/your/image.eps}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{PutPageNorthEastImage}{width}{\def\PutPageNorthEastImageWidth{#1}} % Opção para largura
+\define@key{PutPageNorthEastImage}{sep}{\def\PutPageNorthEastImageSep{#1}} % Opção para separação
+\define@key{PutPageNorthEastImage}{opacity}{\def\PutPageNorthEastImageOpacity{#1}} % opacity
+\setkeys{PutPageNorthEastImage}{width=0.1\textwidth,sep=0pt,opacity=1.0}
+\newcommand{\PutPageNorthEastImage}[2][]{%
+    \setkeys{PutPageNorthEastImage}{#1}%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.north east),anchor=north east,inner sep=\PutPageNorthEastImageSep,opacity=\PutPageNorthEastImageOpacity] {
+            \includegraphics[width=\PutPageNorthEastImageWidth,keepaspectratio]{#2}
+        };
+    \end{tikzpicture}
+}
+\makeatother
+
+
