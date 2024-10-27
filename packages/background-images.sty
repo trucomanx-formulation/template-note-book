@@ -25,6 +25,30 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\makeatletter
+% Definir opções padrão com xkeyval
+\define@key{DrawPageBorder}{width}{\def\DrawPageBorderWidth{#1}}
+\define@key{DrawPageBorder}{height}{\def\DrawPageBorderHeight{#1}}
+\define@key{DrawPageBorder}{lineweight}{\def\DrawPageBorderLineweight{#1}}
+
+% Definir valores padrão
+\setkeys{DrawPageBorder}{width=1cm,height=1cm,lineweight=0.5pt}
+
+\newcommand{\DrawPageBorder}[1][]{%
+    \setkeys{DrawPageBorder}{#1}%
+    \begin{tikzpicture}[remember picture, overlay]
+        \draw[line width=\DrawPageBorderLineweight]
+            ($(current page.north west) + (\DrawPageBorderWidth, -\DrawPageBorderHeight)$) rectangle
+            ($(current page.south east) + (-\DrawPageBorderWidth, \DrawPageBorderHeight)$);
+    \end{tikzpicture}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %% \PutPagePatternAutoImage[width=0.1\textwidth,height=0.1\textwidth,opacity=1.0, start=south west]{logos/musica2.png}
@@ -35,10 +59,11 @@
 % Definir opções com xkeyval
 \define@key{PutPagePatternAutoImage}{width}{\def\PutPagePatternAutoImageWidth{#1}} % Largura do padrão
 \define@key{PutPagePatternAutoImage}{height}{\def\PutPagePatternAutoImageHeight{#1}} % Altura do padrão
-\define@key{PutPagePatternAutoImage}{sep}{\def\PutPagePatternAutoImageSep{#1}} % Altura do padrão
+\define@key{PutPagePatternAutoImage}{sepX}{\def\PutPagePatternAutoImageSepX{#1}} % Altura do padrão
+\define@key{PutPagePatternAutoImage}{sepY}{\def\PutPagePatternAutoImageSepY{#1}} % Altura do padrão
 \define@key{PutPagePatternAutoImage}{opacity}{\def\PutPagePatternAutoImageOpacity{#1}} % Opacidade
 \define@key{PutPagePatternAutoImage}{start}{\def\PutPagePatternAutoImageStart{#1}} % Ponto inicial
-\setkeys{PutPagePatternAutoImage}{width=0.1\textwidth, height=0.1\textwidth, opacity=1.0, start=south west,sep=0pt}
+\setkeys{PutPagePatternAutoImage}{width=0.1\textwidth, height=0.1\textwidth, opacity=1.0, start=south west,sepX=0pt,sepY=0pt}
 
 \newcommand{\PutPagePatternAutoImage}[2][]{%
     \setkeys{PutPagePatternAutoImage}{#1}%
@@ -68,8 +93,8 @@
 
         \newlength{\PutPagePatternAutoImageWidthS}
         \newlength{\PutPagePatternAutoImageHeightS}
-        \setlength{\PutPagePatternAutoImageWidthS}{\PutPagePatternAutoImageWidth+\PutPagePatternAutoImageSep}
-        \setlength{\PutPagePatternAutoImageHeightS}{\PutPagePatternAutoImageHeight+\PutPagePatternAutoImageSep}
+        \setlength{\PutPagePatternAutoImageWidthS}{\PutPagePatternAutoImageWidth+\PutPagePatternAutoImageSepX}
+        \setlength{\PutPagePatternAutoImageHeightS}{\PutPagePatternAutoImageHeight+\PutPagePatternAutoImageSepY}
 
         % Calcular o número de repetições necessárias para cobrir a página
         \pgfmathsetmacro{\numRepetitionsX}{ceil(\paperwidth / \PutPagePatternAutoImageWidthS)}
@@ -101,9 +126,10 @@
 \define@key{PutPagePatternImage}{height}{\def\PutPagePatternImageHeight{#1}} % Opção para altura
 \define@key{PutPagePatternImage}{repsX}{\def\PutPagePatternImageRepsX{#1}} % Repetições horizontais
 \define@key{PutPagePatternImage}{repsY}{\def\PutPagePatternImageRepsY{#1}} % Repetições verticais
-\define@key{PutPagePatternImage}{sep}{\def\PutPagePatternImageSep{#1}} % Opção para separação
+\define@key{PutPagePatternImage}{sepX}{\def\PutPagePatternImageSepX{#1}} % Opção para separação
+\define@key{PutPagePatternImage}{sepY}{\def\PutPagePatternImageSepY{#1}} % Opção para separação
 \define@key{PutPagePatternImage}{opacity}{\def\PutPagePatternImageOpacity{#1}} % Opção para opacidade
-\setkeys{PutPagePatternImage}{width=0.1\textwidth,height=0.1\textwidth,sep=0pt,opacity=1.0,repsX=3,repsY=3}
+\setkeys{PutPagePatternImage}{width=0.1\textwidth,height=0.1\textwidth,sepX=0pt,sepY=0pt,opacity=1.0,repsX=3,repsY=3}
 
 \newcommand{\PutPagePatternImage}[2][]{%
     \setkeys{PutPagePatternImage}{#1}%
@@ -114,18 +140,18 @@
     
     \newlength{\PutPagePatternImageWidthS}
     \newlength{\PutPagePatternImageHeightS}
-    \setlength{\PutPagePatternImageWidthS}{\PutPagePatternImageWidth + \PutPagePatternImageSep}
-    \setlength{\PutPagePatternImageHeightS}{\PutPagePatternImageHeight + \PutPagePatternImageSep}
+    \setlength{\PutPagePatternImageWidthS}{\PutPagePatternImageWidth + \PutPagePatternImageSepX}
+    \setlength{\PutPagePatternImageHeightS}{\PutPagePatternImageHeight + \PutPagePatternImageSepY}
     
     % Calcular a largura e altura totais
     \newlength{\OffsetWidth}
     \newlength{\OffsetHeight}
-    \setlength{\OffsetWidth}{(\paperwidth-\PutPagePatternImageWidthS * \PutPagePatternImageRepsX)/2}
-    \setlength{\OffsetHeight}{(\paperheight-\PutPagePatternImageHeightS * \PutPagePatternImageRepsY)/2}
+    \setlength{\OffsetWidth}{(\paperwidth-\PutPagePatternImageWidthS * \PutPagePatternImageRepsX + \PutPagePatternImageSepX)/2}
+    \setlength{\OffsetHeight}{(\paperheight-\PutPagePatternImageHeightS * \PutPagePatternImageRepsY+ \PutPagePatternImageSepY)/2}
     
     \begin{tikzpicture}[remember picture,overlay]
         % Ajustar a posição inicial para centralizar
-        \node[anchor=south west] at ($ (current page.south west) + ( \OffsetWidth, \OffsetHeight) $) {
+        \node[anchor=south west, inner sep=0, outer sep=0] at ($ (current page.south west) + ( \OffsetWidth, \OffsetHeight) $) {
             \begin{tikzpicture}[remember picture,overlay]
             % Loop para preencher a página com o padrão
             \foreach \x in {0,...,\PutPagePatternImageRepsXm} { % Controle horizontal

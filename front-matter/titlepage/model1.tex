@@ -1,26 +1,34 @@
 
 \newpage
-\thispagestyle{empty}
-{
-\begin{center}
-%% Upper part of the page
-\includegraphics[width=0.05\textwidth]{logos/logo-bw-1}\\[2.0ex]
-%% Title
-\HRule{0.4ex}\\[15pt]
-{\fontsize{40}{60}\bfseries\selectfont\MakeUppercase{\BookTitle}}\\
-\HRule{0.4ex}\\[0.7ex]
-%% SubTitle
-{\fontsize{35}{30}\bfseries\selectfont\BookSubTitle}\\[0.5ex]
-\vfill
-%% Author 
-%\emph{Author:}\\
-{\fontsize{20}{0}\selectfont Name: \rule{0.33\textwidth}{1.0pt}}\\%\textsc{Coppejans}
 
-% Bottom of the page
+
+%\DrawPageBorder[width=40pt,height=40pt,lineweight=3pt]
+\PutPagePatternAutoImage[width=15cm,height=15cm,opacity=0.45, start=north west,sepX=0.0cm]{logos/music-patttern.png}
+\thispagestyle{empty}
+\begin{center}
+%% Title
+%\HRule{0.4ex}\\[15pt]
+{\fontsize{40}{60}\bfseries\selectfont%
+\TextContourColor[color=white]{MUSIC NOTEBOOK}\\[10pt]
+\TextContourColor[color=white]{FOR KIDS}
+}\\
+%\HRule{0.4ex}\\[0.7ex]
 \vfill
-{\fontsize{20}{0}\selectfont Year: \rule{0.15\textwidth}{1.0pt}}
-\end{center}
+~
+\vfill
+%%%%%%%%%
+\noindent%
+\begin{tcolorbox}[colback=white,colframe=white,width=0.618\linewidth,arc=18pt]
+\begin{tcolorbox}[colback=white,colframe=black,title=\textbf{My details},width=\linewidth,arc=12pt]
+~\\[5pt]
+\foreach \i in {1,...,4} {
+\noindent\rule{\linewidth}{1.0pt}\\[5pt]
 }
+\vspace{-10pt}
+\end{tcolorbox}
+\end{tcolorbox}
+%%%%%%%%
+\end{center}
 %\cleardoublepage
 
 

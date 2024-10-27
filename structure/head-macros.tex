@@ -6,6 +6,70 @@
   e tamanho: \f@size{} pt}
 \makeatother
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage{xcolor}
+\usepackage{xkeyval}
+\usepackage{shadowtext}
+
+
+% Configuração das chaves com xkeyval
+\makeatletter
+% Definindo valores padrão para as chaves offset e color
+\newcommand{\TextShadowColor@offsetX}{5pt}
+\newcommand{\TextShadowColor@offsetY}{5pt}
+\newcommand{\TextShadowColor@color}{red}
+
+\define@key{TextShadowColor}{offsetX}{\renewcommand{\TextShadowColor@offsetX}{#1}}
+\define@key{TextShadowColor}{offsetY}{\renewcommand{\TextShadowColor@offsetY}{#1}}
+\define@key{TextShadowColor}{color}{\renewcommand{\TextShadowColor@color}{#1}}
+
+\setkeys{TextShadowColor}{offsetX=1pt, offsetY=1pt, color=red}
+
+% Comando personalizado que usa as chaves definidas
+\newcommand{\TextShadowColor}[2][]{%
+  \setkeys{TextShadowColor}{#1}               % Configura as chaves fornecidas pelo usuário
+  \shadowoffsetx{\TextShadowColor@offsetX}       % Usa o valor de offsetX
+  \shadowoffsety{\TextShadowColor@offsetY}       % Usa o valor de offsetY
+  \shadowcolor{\TextShadowColor@color}         % Usa o valor de color
+  \shadowtext{#2}                      % Aplica o texto com contorno
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage{xcolor}
+%\usepackage{xkeyval}
+\usepackage{contour}
+
+
+% Configuração das chaves com xkeyval
+\makeatletter
+% Definindo valores padrão para as chaves offset e color
+\newcommand{\TextContourColor@length}{5pt}
+\newcommand{\TextContourColor@color}{red}
+\newcommand{\TextContourColor@number}{25}
+
+\define@key{TextContourColor}{length}{\renewcommand{\TextContourColor@length}{#1}}
+\define@key{TextContourColor}{color}{\renewcommand{\TextContourColor@color}{#1}}
+\define@key{TextContourColor}{number}{\renewcommand{\TextContourColor@number}{#1}}
+
+\setkeys{TextContourColor}{length=10pt, color=green, number=25}
+
+% Comando personalizado que usa as chaves definidas
+\newcommand{\TextContourColor}[2][]{%
+  \setkeys{TextContourColor}{#1}               % Configura as chaves fornecidas pelo usuário
+  \contourlength{\TextContourColor@length}       % Usa o valor de length
+  \contournumber{\TextContourColor@number}
+  \contour{\TextContourColor@color}{#2}                      % Aplica o texto com contorno
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %-------------------------------------------------------------------------------
 % Esquema de colores
