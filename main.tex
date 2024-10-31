@@ -1,5 +1,9 @@
 \documentclass[14pt]{extbook} %8pt, 9pt, 10pt, 11pt, 12pt, 14pt, 17pt and 20pt. 
 
+%\newcommand\TypeOfPage{Type3}
+\newcommand\TypeOfPage{Type4}
+
+
 \input{structure/information-book} %% Global variables with book information
 \input{structure/head-packages} %% external packages used in the book 
 \input{structure/head-macros} %% Macros created to this book 
@@ -25,6 +29,20 @@
 %% Set de default color of all text
 \color{colorDefault}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand\PageImageFilename{content/page.eps}
+
+\ifthenelse{\equal{\TypeOfPage}{Type3}}%
+{\renewcommand{\PageImageFilename}{content/page3.eps}}{}%
+
+\ifthenelse{\equal{\TypeOfPage}{Type4}}%
+{\renewcommand{\PageImageFilename}{content/page4.eps}}{}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \pagestyle{empty}
 
