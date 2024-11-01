@@ -4,11 +4,11 @@
 <svg
    width="102.86932mm"
    height="203.72159mm"
-   viewBox="0 0 102.86931 203.72159"
+   viewBox="0 0 102.86932 203.72159"
    version="1.1"
    id="svg1683"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="pattern3.svg"
+   sodipodi:docname="desenho.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -27,9 +27,9 @@
      inkscape:snap-bbox="true"
      inkscape:zoom="0.30422629"
      inkscape:cx="198.86513"
-     inkscape:cy="787.24294"
-     inkscape:window-width="1844"
-     inkscape:window-height="1043"
+     inkscape:cy="785.59943"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -49,7 +49,7 @@
         <polygon
            style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
            fill-rule="evenodd"
-           points="1600,400 1600,300 1700,300 "
+           points="1600,300 1700,300 1600,400 "
            id="polygon318" />
         <line
            style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
@@ -187,24 +187,24 @@
         <polygon
            style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linejoin:round;stroke-opacity:1"
            fill-rule="evenodd"
-           points="1700,600 1700,500 1600,400 1600,500 "
+           points="1600,400 1600,500 1700,600 1700,500 "
            id="polygon358" />
         <polygon
            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linejoin:round;stroke-opacity:1"
            fill-rule="evenodd"
-           points="1800,500 1800,400 1700,500 1700,600 "
+           points="1700,500 1700,600 1800,500 1800,400 "
            id="polygon360" />
         <polygon
            style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
            fill-rule="evenodd"
-           points="1800,300 1700,300 1800,400 "
+           points="1700,300 1800,400 1800,300 "
            id="polygon362" />
         <g
            id="g384">
           <polygon
              style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linejoin:round;stroke-opacity:1"
              fill-rule="evenodd"
-             points="1800,400 1700,300 1600,400 1700,500 "
+             points="1600,400 1700,500 1800,400 1700,300 "
              id="polygon364" />
           <line
              style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
@@ -273,7 +273,7 @@
         <polygon
            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linejoin:round;stroke-opacity:1"
            fill-rule="evenodd"
-           points="1800,400 1700,300 1600,400 1700,500 "
+           points="1600,400 1700,500 1800,400 1700,300 "
            id="polygon386" />
         <line
            style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
@@ -341,7 +341,7 @@
         <polygon
            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linejoin:round;stroke-opacity:1"
            fill-rule="evenodd"
-           points="1800,400 1700,300 1600,400 1700,500 "
+           points="1600,400 1700,500 1800,400 1700,300 "
            id="polygon406" />
         <line
            style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
@@ -409,13 +409,13 @@
         <polygon
            style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
            fill-rule="evenodd"
-           points="1700,700 1700,600 1600,700 "
+           points="1700,600 1600,700 1700,700 "
            id="polygon426"
            transform="matrix(1,0,0,1.0189064,1.3251179e-7,-11.34384)" />
         <polygon
            style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.99991;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            fill-rule="evenodd"
-           points="1700,700 1700,600 1800,700 "
+           points="1700,600 1800,700 1700,700 "
            id="polygon428" />
         <line
            style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:round;stroke-opacity:1"
